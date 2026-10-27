@@ -11,6 +11,7 @@ import {
   Ticket,
   ExternalLink,
   Tv,
+  Eye,
   Radio,
   DotIcon,
   Trash2,
@@ -101,7 +102,7 @@ function Badge({ children, className = "" }: { children: React.ReactNode; classN
 
 function Pill({ active, children, onClick }: { active?: boolean; children: React.ReactNode; onClick?: () => void }) {
   return (
-    <button onClick={onClick} className={`px-3 py-1.5 rounded-full text-sm border transition shadow-sm ${active ? "bg-black text-white border-black" : "bg-white hover:bg-neutral-50 text-neutral-700 border-neutral-200"}`}>
+    <button onClick={onClick} className={`px-3 py-1.5 rounded-full text-sm transition shadow-sm ${active ? "bg-gradient-to-r from-yellow-300 to-amber-400 text-black" : "bg-white hover:bg-yellow-50 text-neutral-700"}`}>
       {children}
     </button>
   );
@@ -240,19 +241,21 @@ export default function DashboardUI() {
   const past = filtered.filter((s) => s.status === "past");
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-gradient-to-br from-red-400 via-indigo-100 to-violet-500">
       <RoleInitializer />
-      <header className="sticky top-0 z-20 border-b border-neutral-200 bg-white/80 backdrop-blur">
+      <header className="sticky top-0 z-20 border-b border-neutral-200 bg-white text-violet-700 shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-2xl font-bold leading-tight">VSS Live</h1>
-              <p className="text-sm text-neutral-600">Welcome back! Browse your live and upcoming games.</p>
+              <h1 className="text-3xl font-bold leading-tight">VSS Live</h1>
+              <p className="text-base text-violet-600">
+                Welcome back! Browse your live and upcoming games.
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <div className="relative">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" />
-                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search teams, league, title..." className="w-72 rounded-full border border-neutral-300 py-2 pl-9 pr-3 text-sm outline-none focus:border-black" />
+                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search teams, league, title..." className="w-72 rounded-full border border-violet-300 py-2 pl-9 pr-3 text-sm outline-none" />
               </div>
               <div className="hidden sm:flex items-center gap-1 rounded-full border border-neutral-200 bg-white p-1">
                 <Pill active={tab === "all"} onClick={() => setTab("all")}>All</Pill>
@@ -261,15 +264,15 @@ export default function DashboardUI() {
                 <Pill active={tab === "past"} onClick={() => setTab("past")}>Past</Pill>
               </div>
               <div className="flex items-center gap-1 rounded-full border border-neutral-200 bg-white p-1">
-                <button onClick={() => { setLayout("grid"); setViewMode("viewer"); }} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "viewer" && layout === "grid" ? "bg-black text-white" : "hover:bg-neutral-50"}`} title="Grid"><Columns className="h-4 w-4" />Grid</button>
-                <button onClick={() => { setLayout("list"); setViewMode("viewer"); }} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "viewer" && layout === "list" ? "bg-black text-white" : "hover:bg-neutral-50"}`} title="List"><Rows className="h-4 w-4" />List</button>
+                <button onClick={() => { setLayout("grid"); setViewMode("viewer"); }} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "viewer" && layout === "grid" ? "bg-gradient-to-r from-yellow-300 to-amber-400 text-black" : "text-black hover:bg-neutral-50"}`} title="Grid"><Columns className="h-4 w-4" />Grid</button>
+                <button onClick={() => { setLayout("list"); setViewMode("viewer"); }} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "viewer" && layout === "list" ? "bg-gradient-to-r from-yellow-300 to-amber-400 text-black" : "text-black hover:bg-neutral-50"}`} title="List"><Rows className="h-4 w-4" />List</button>
                 {isAdmin && (
                   <button onClick={() => setViewMode("admin")} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "admin" ? "bg-black text-white" : "hover:bg-neutral-50 text-neutral-700"}`} title="Admin tools"><UserCog className="h-4 w-4" />Admin</button>
                 )}
               </div>
             </div>
             <div className="flex justify-end">
-              <UserButton appearance={{ elements: { avatarImage: "rounded-full border-2 border-violet-600" } }}>
+              <UserButton appearance={{ elements: { avatarBox: "ring-2 ring-black-300 rounded-full bg-black", avatarImage: "bg-black" } }}>
                 <UserButton.MenuItems>
                   <UserButton.Action label="Subscription" labelIcon={<DotIcon />} onClick={openBillingPortal} />
                 </UserButton.MenuItems>
@@ -296,8 +299,8 @@ export default function DashboardUI() {
                 {(tab === "all" || tab === "live") && (
                   <section className="mb-8">
                     <div className="mb-3 flex items-center justify-between">
-                      <h2 className="text-lg font-semibold">Live now</h2>
-                      <button onClick={() => setTab("live")} className="text-sm text-neutral-700 hover:underline">View all</button>
+                      <h2 className="text-xl font-semibold">Live now</h2>
+                      <button onClick={() => setTab("live")} className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm transition hover:bg-neutral-50"><Eye className="h-4 w-4" />View all</button>
                     </div>
                     {live.length === 0 ? <EmptyState variant="live" /> : (
                       <div className={layout === "grid" ? "grid gap-4 sm:grid-cols-2 lg:grid-cols-3" : "space-y-3"}>
@@ -310,7 +313,7 @@ export default function DashboardUI() {
                 {(tab === "all" || tab === "upcoming") && (
                   <section className="mb-8">
                     <div className="mb-3 flex items-center justify-between">
-                      <h2 className="text-lg font-semibold">Upcoming</h2>
+                      <h2 className="text-xl font-semibold">Upcoming</h2>
                       <div className="relative">
                         <button onClick={() => setShowFilters((v) => !v)} className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition ${showFilters || filterLeague !== "all" || filterAccess !== "all" ? "border-black bg-black text-white" : "border-neutral-200 bg-white hover:bg-neutral-50"}`}>
                           <FilterIcon className="h-4 w-4" /> Filters
@@ -346,8 +349,8 @@ export default function DashboardUI() {
                 {(tab === "all" || tab === "past") && (
                   <section className="mb-8">
                     <div className="mb-3 flex items-center justify-between">
-                      <h2 className="text-lg font-semibold">Past Games</h2>
-                      <button onClick={() => setTab("past")} className="text-sm text-neutral-700 hover:underline">Browse replays</button>
+                      <h2 className="text-xl font-semibold">Past Games</h2>
+                      <button onClick={() => setTab("past")} className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm transition hover:bg-neutral-50"><Play className="h-4 w-4" />Browse replays</button>
                     </div>
                     {past.length === 0 ? <EmptyState variant="past" /> : (
                       <div className={layout === "grid" ? "grid gap-4 sm:grid-cols-2 lg:grid-cols-3" : "space-y-3"}>
