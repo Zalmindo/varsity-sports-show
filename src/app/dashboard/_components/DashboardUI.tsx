@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   Play,
   Calendar,
@@ -246,11 +247,16 @@ export default function DashboardUI() {
       <header className="sticky top-0 z-20 border-b border-neutral-200 bg-white text-violet-700 shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold leading-tight">VSS Live</h1>
-              <p className="text-base text-violet-600">
-                Welcome back! Browse your live and upcoming games.
-              </p>
+            <div className="flex items-center gap-3">
+              <Image
+                src="/VSS_Logo.png"
+                alt="VSS Live"
+                width={71}
+                height={70}
+                priority
+                className="h-12 w-auto"
+              />
+              <h1 className="text-2xl font-bold leading-tight">VSS Live</h1>
             </div>
             <div className="flex items-center gap-2">
               <div className="relative">
