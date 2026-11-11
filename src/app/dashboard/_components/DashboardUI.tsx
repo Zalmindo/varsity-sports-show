@@ -67,7 +67,7 @@ export function StartTimeField({ value, onChange }: StartTimeFieldProps) {
 
   return (
     <div className="space-y-2 relative">
-      <button type="button" onClick={() => setOpen((p) => !p)} className="flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left hover:border-neutral-400 bg-white">
+      <button type="button" onClick={() => setOpen((p) => !p)} className="flex w-full items-center justify-between rounded-xl border border-violet-300 bg-white px-3 py-2 text-left outline-none transition hover:border-violet-300 focus:border-violet-400 focus:ring-2 focus:ring-violet-100">
         <div className="flex items-center gap-2"><CalendarIcon className="h-4 w-4 text-neutral-600" /><span className="text-sm text-neutral-900">{displayText}</span></div>
         <Clock className="h-4 w-4 text-neutral-500" />
       </button>
@@ -249,14 +249,14 @@ export default function DashboardUI() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <Image
-                src="/VSS_Logo.png"
-                alt="VSS Live"
+                src="/varsitylogoempty.jpg"
+                alt="Varsity TV"
                 width={71}
                 height={70}
                 priority
                 className="h-12 w-auto"
               />
-              <h1 className="text-2xl font-bold leading-tight">VSS Live</h1>
+              <h1 className="text-2xl font-bold leading-tight">Varsity TV</h1>
             </div>
             <div className="flex items-center gap-2">
               <div className="relative">
@@ -273,7 +273,9 @@ export default function DashboardUI() {
                 <button onClick={() => { setLayout("grid"); setViewMode("viewer"); }} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "viewer" && layout === "grid" ? "bg-gradient-to-r from-yellow-300 to-amber-400 text-black" : "text-black hover:bg-neutral-50"}`} title="Grid"><Columns className="h-4 w-4" />Grid</button>
                 <button onClick={() => { setLayout("list"); setViewMode("viewer"); }} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "viewer" && layout === "list" ? "bg-gradient-to-r from-yellow-300 to-amber-400 text-black" : "text-black hover:bg-neutral-50"}`} title="List"><Rows className="h-4 w-4" />List</button>
                 {isAdmin && (
-                  <button onClick={() => setViewMode("admin")} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "admin" ? "bg-black text-white" : "hover:bg-neutral-50 text-neutral-700"}`} title="Admin tools"><UserCog className="h-4 w-4" />Admin</button>
+                  <button onClick={() => setViewMode("admin")} className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm ${viewMode === "admin"
+  ? "bg-gradient-to-r from-yellow-300 to-amber-400 text-black"
+  : "hover:bg-neutral-50 text-neutral-700"}`} title="Admin tools"><UserCog className="h-4 w-4" />Admin</button>
                 )}
               </div>
             </div>
@@ -442,21 +444,34 @@ function AdminPanel({ onCreated, getToken }: { onCreated: (s: Stream) => void; g
   };
 
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white p-6">
-      <h2 className="text-lg font-semibold mb-4">Create Livestream</h2>
+    <div className="rounded-3xl border border-violet-200 bg-white p-6 shadow-sm">
+  <div className="mb-6">
+    <h2 className="text-2xl font-bold text-violet-700">
+      Create Livestream
+    </h2>
+    <p className="mt-1 text-sm text-neutral-500">
+      Add a new game to the Varsity TV schedule.
+    </p>
+  </div>
       {error && <div className="rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-2 mb-4">{error}</div>}
       <div className="grid gap-4 sm:grid-cols-2">
-        <label><div className="text-sm font-medium mb-1">Game Title</div><div className="relative"><input required className="w-full border rounded-lg px-3 py-2" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Wolves vs Tigers" /><button type="button" onClick={() => setTitle("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
-        <label><div className="text-sm font-medium mb-1">League</div><div className="relative"><input required className="w-full border rounded-lg px-3 py-2" value={league} onChange={(e) => setLeague(e.target.value)} placeholder="HS Football" /><button type="button" onClick={() => setLeague("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
-        <label><div className="text-sm font-medium mb-1">Home / School A</div><div className="relative"><input required className="w-full border rounded-lg px-3 py-2" value={schoolA} onChange={(e) => setSchoolA(e.target.value)} placeholder="Desert Ridge" /><button type="button" onClick={() => setSchoolA("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
-        <label><div className="text-sm font-medium mb-1">Away / School B</div><div className="relative"><input required className="w-full border rounded-lg px-3 py-2" value={schoolB} onChange={(e) => setSchoolB(e.target.value)} placeholder="Mesa East" /><button type="button" onClick={() => setSchoolB("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
-        <label><div className="text-sm font-medium mb-1">Start Time</div><StartTimeField value={startAt} onChange={(iso) => setStartAt(iso)} /></label>
-        <label><div className="text-sm font-medium mb-1">Access</div><select className="w-full border rounded-lg px-3 py-2" value={access} onChange={handleAccessChange} required><option value="" disabled hidden>Select access type...</option><option value="blank"> </option><option value="free">Free</option><option value="ppv">Pay-per-view</option><option value="subscriber">Subscriber only</option></select></label>
-        {access === "ppv" && (<label><div className="text-sm font-medium mb-1">Price</div><div className="relative"><span className="absolute inset-y-0 left-3 flex items-center font-bold text-gray-500">$</span><input required min="0" step="0.01" className="w-full border rounded-lg px-3 py-2 pl-8 pr-10" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="9.99" /><button type="button" onClick={() => setPrice("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>)}
-        <label className="sm:col-span-2"><div className="text-sm font-medium mb-1">Thumbnail URL</div><div className="relative"><input required className="w-full border rounded-lg px-3 py-2" value={thumbnail} onChange={(e) => setThumbnail(e.target.value)} placeholder="https://images.unsplash.com/..." /><button type="button" onClick={() => setThumbnail("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div>{thumbnail && (<div className="mt-3"><p className="text-xs text-gray-500 mb-1">Thumbnail Preview:</p><img src={thumbnail} alt="Thumbnail preview" className="w-48 h-28 object-cover rounded border" onError={(e) => { e.currentTarget.src = ""; }} /></div>)}</label>
-        <label className="sm:col-span-2"><div className="text-sm font-medium mb-1">Stream Source (Dacast iframe URL)</div><div className="relative"><input className="w-full border rounded-lg px-3 py-2" value={sourceUrl} onChange={(e) => setSourceUrl(e.target.value)} placeholder="https://iframe.dacast.com/live/..." /><button type="button" onClick={() => setSourceUrl("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
+        <label><div className="mb-1.5 text-sm font-semibold text-neutral-700">Game Title</div><div className="relative"><input required className="w-full rounded-xl border border-violet-300 bg-white px-3 py-2 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Wolves vs Tigers" /><button type="button" onClick={() => setTitle("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
+        <label><div className="mb-1.5 text-sm font-semibold text-neutral-700">League</div><div className="relative"><input required className="w-full rounded-xl border border-violet-300 bg-white px-3 py-2 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100" value={league} onChange={(e) => setLeague(e.target.value)} placeholder="HS Football" /><button type="button" onClick={() => setLeague("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
+        <label><div className="mb-1.5 text-sm font-semibold text-neutral-700">Home / School A</div><div className="relative"><input required className="w-full rounded-xl border border-violet-300 bg-white px-3 py-2 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100" value={schoolA} onChange={(e) => setSchoolA(e.target.value)} placeholder="Desert Ridge" /><button type="button" onClick={() => setSchoolA("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
+        <label><div className="mb-1.5 text-sm font-semibold text-neutral-700">Away / School B</div><div className="relative"><input required className="w-full rounded-xl border border-violet-300 bg-white px-3 py-2 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100" value={schoolB} onChange={(e) => setSchoolB(e.target.value)} placeholder="Mesa East" /><button type="button" onClick={() => setSchoolB("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
+        <label><div className="mb-1.5 text-sm font-semibold text-neutral-700">Start Time</div><StartTimeField value={startAt} onChange={(iso) => setStartAt(iso)} /></label>
+        <label><div className="mb-1.5 text-sm font-semibold text-neutral-700">Access</div><select className="w-full rounded-xl border border-violet-300 bg-white px-3 py-2 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100" value={access} onChange={handleAccessChange} required><option value="" disabled hidden>Select access type...</option><option value="blank"> </option><option value="free">Free</option><option value="ppv">Pay-per-view</option><option value="subscriber">Subscriber only</option></select></label>
+        {access === "ppv" && (<label><div className="mb-1.5 text-sm font-semibold text-neutral-700">Price</div><div className="relative"><span className="absolute inset-y-0 left-3 flex items-center font-bold text-gray-500">$</span><input required min="0" step="0.01" className="w-full border rounded-lg px-3 py-2 pl-8 pr-10" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="9.99" /><button type="button" onClick={() => setPrice("")} className="absolute right-3 top=1/2 -translate-y=1/2 text-gray=400 hover:text-black"><Trash2 size={16} /></button></div></label>)}
+        <label className="sm:col-span-2"><div className="mb-1.5 text-sm font-semibold text-neutral-700">Thumbnail URL</div><div className="relative"><input required className="w-full rounded-xl border border-violet-300 bg-white px-3 py-2 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100" value={thumbnail} onChange={(e) => setThumbnail(e.target.value)} placeholder="https://images.unsplash.com/..." /><button type="button" onClick={() => setThumbnail("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div>{thumbnail && (<div className="mt-3"><p className="text-xs text-gray-500 mb-1">Thumbnail Preview:</p><img src={thumbnail} alt="Thumbnail preview" className="w-48 h-28 object-cover rounded border" onError={(e) => { e.currentTarget.src = ""; }} /></div>)}</label>
+        <label className="sm:col-span-2"><div className="mb-1.5 text-sm font-semibold text-neutral-700">Stream Source (Dacast iframe URL)</div><div className="relative"><input className="w-full rounded-xl border border-violet-300 bg-white px-3 py-2 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100" value={sourceUrl} onChange={(e) => setSourceUrl(e.target.value)} placeholder="https://iframe.dacast.com/live/..." /><button type="button" onClick={() => setSourceUrl("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black"><Trash2 size={16} /></button></div></label>
       </div>
-      <button onClick={handleCreate} disabled={submitting} className="mt-6 rounded-full bg-black px-5 py-2 text-sm font-medium text-white disabled:opacity-50">{submitting ? "Creating..." : "Create livestream"}</button>
+      <button
+  onClick={handleCreate}
+  disabled={submitting}
+  className="mt-6 rounded-full bg-gradient-to-r from-yellow-300 to-amber-400 px-5 py-2.5 text-sm font-semibold text-black shadow-sm transition hover:from-yellow-400 hover:to-amber-500 disabled:opacity-50"
+>
+  {submitting ? "Creating..." : "Create livestream"}
+</button>
     </div>
   );
 }
