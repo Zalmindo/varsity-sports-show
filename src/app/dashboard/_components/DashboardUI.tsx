@@ -232,7 +232,7 @@ export default function DashboardUI() {
       <header className="sticky top-0 z-20 border-b border-neutral-200 bg-white text-violet-700 shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-5">
               <Image
                 src="/varsitylogoempty.jpg"
                 alt="Varsity TV"
@@ -241,19 +241,22 @@ export default function DashboardUI() {
                 priority
                 className="h-12 w-auto"
               />
-              <h1 className="text-2xl font-bold leading-tight">Varsity TV</h1>
+              <h1 className="text-2xl font-bold uppercase tracking-tight font-['Bebas Neue']">Varsity TV</h1>
+
             </div>
             <div className="flex items-center gap-2">
               <div className="relative">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" />
-                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search teams, league, title..." className="w-72 rounded-full border border-violet-300 py-2 pl-9 pr-3 text-sm outline-none" />
+                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search teams, league, title..." className="w-100 rounded-full border border-violet-300 py-2 pl-9 pr-3 text-sm outline-none" />
               </div>
             </div>
             <div className="flex items-center justify-end gap-3">
               {isAdmin && (
-                <button onClick={() => setViewMode((m) => (m === "admin" ? "viewer" : "admin"))} className={`inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-2 text-sm ${viewMode === "admin"
-  ? "bg-gradient-to-r from-yellow-300 to-amber-400 text-black"
-  : "bg-white hover:bg-neutral-50 text-neutral-700"}`} title={viewMode === "admin" ? "Back to streams" : "Go live"}><Radio className="h-4 w-4" />Go Live</button>
+                <button onClick={() => setViewMode((m) => (m === "admin" ? "viewer" : "admin"))} className={`inline-flex items-center gap-1 rounded-full border px-3 py-2 text-sm font-bold text-violet-700 outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100 ${
+  viewMode === "admin"
+    ? "border-violet-400 bg-gradient-to-r from-yellow-300 to-amber-400 ring-2 ring-violet-100"
+    : "border-violet-300 bg-white hover:border-violet-400 hover:bg-violet-50"
+}`} title={viewMode === "admin" ? "Back to streams" : "Go live"}><Radio className="h-4 w-4" />Go Live</button>
               )}
               <UserButton appearance={{ elements: { avatarBox: "ring-2 ring-black-300 rounded-full bg-black", avatarImage: "bg-black" } }}>
                 <UserButton.MenuItems>
@@ -294,7 +297,10 @@ export default function DashboardUI() {
                   <div className="mb-3 flex items-center justify-between">
                     <h2 className="text-xl font-semibold">Upcoming</h2>
                     <div className="relative">
-                      <button onClick={() => setShowFilters((v) => !v)} className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition ${showFilters || filterLeague !== "all" || filterAccess !== "all" ? "border-black bg-black text-white" : "border-neutral-200 bg-white hover:bg-neutral-50"}`}>
+                      <button onClick={() => setShowFilters((v) => !v)} className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm outline-none transition focus:border-violet-400 focus:ring-2 focus:ring-violet-100 ${ showFilters || filterLeague !== "all" || filterAccess !== "all"
+                         ? "border-violet-400 bg-black text-white ring-2 ring-violet-100"
+                         : "border-violet-300 bg-white hover:border-violet-400 hover:bg-neutral-50"
+                       }`}>
                         <FilterIcon className="h-4 w-4" /> Filters
                         {(filterLeague !== "all" || filterAccess !== "all") && <span className="ml-1 flex h-4 w-4 items-center justify-center rounded-full bg-white text-[10px] font-bold text-black">{(filterLeague !== "all" ? 1 : 0) + (filterAccess !== "all" ? 1 : 0)}</span>}
                       </button>
