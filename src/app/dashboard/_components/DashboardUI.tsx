@@ -256,7 +256,8 @@ export default function DashboardUI() {
                 priority
                 className="h-12 w-auto"
               />
-              <h1 className="text-2xl font-bold leading-tight">Varsity TV</h1>
+              <h1 className="text-2xl font-bold uppercase tracking-tight font-['Oswald']">Varsity TV</h1>
+
             </div>
             <div className="flex items-center gap-2">
               <div className="relative">
